@@ -1,7 +1,7 @@
 Arima
 =====
 <p>
-VinaVidai is a open-source Quiz Software intended to be used in home schooling and for academic purposes. VinaVidai is platform independent and and can be integrated with any RDBMS/SQL database compatible with Java.
+VinaVidai is an open-source Quiz Software intended to be used in home schooling and for academic purposes. VinaVidai is platform independent and and can be integrated with any RDBMS/SQL database compatible with Java.
 VinaVidai also features with a Embedded database and WebApp server - download and start using right away! (To Do)
 </p>
 <p>
