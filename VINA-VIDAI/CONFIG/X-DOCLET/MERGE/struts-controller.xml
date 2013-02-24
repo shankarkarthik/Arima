@@ -1,0 +1,4 @@
+<controller>
+  <set-property property="processorClass"
+      value="org.springframework.web.struts.DelegatingRequestProcessor"/>
+</controller>

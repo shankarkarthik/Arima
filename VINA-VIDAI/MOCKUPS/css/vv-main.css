@@ -1,0 +1,83 @@
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust based on your final font sizing.
+*/
+
+/**
+If we set:
+body{ font-size:1em; }
+
+Howerver, IE has a problem with ems. 
+Resizing text from medium (default) to large in IE5/6 would lead to a huge increase in font size rather than the gradual one expected. 
+So another selector is needed to get IE to behave:
+**/
+
+html {
+    font-size: 100%;
+} 
+/**
+body font size will be 16px by default for all browsers. 
+We also know that if a person has changed their settings, our elastic interface will not break, but adjust. 
+Perfect, so we can set:
+font-size:1em;
+**/
+body {
+    font-size: 1em;
+    font-family: georgia, serif;
+    text-align: center;
+    color: #444;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+}
+
+#rootContainer {    
+    width: 46.25em;
+    margin: 1.5em auto;
+    border: 0.063em solid #ccc;
+    text-align: left;
+    padding: 20px; 20px; 20px; 20px;
+}
+
+#bodyContent {
+    background: #FFFFFF;
+    border: 0.063em solid red;
+    clear: both;
+}
+
+#bodyContent p{
+    font-size: 0.750em;
+    line-height: 1.5em;
+    margin: 1.5em;
+}
+
+#bodyContent h1{
+    font-size: 1.125em;
+    line-height: 1em;
+    margin: 1em;
+    font-weight: 300;
+}
+
+#bodyContent table {
+    font-size: 0.750em;
+    line-height: 1.5em;
+    margin: 1.5em;    
+}
+
+
+#base-table{
+    width:100%;
+}
+
+#message-table {
+    font-size: 0.750em;
+    width:44em;
+    background: #FFFFF;
+}
+#login-table {
+    font-size: 0.750em;
+    width: 15.25em;
+    background: #e6e6e6;
+    border: 0.063em solid #ccc;
+}

@@ -1,0 +1,10 @@
+<project basedir=".">
+    <property name="project.compiletime.dependency"
+              value="${servlet-api.jar},${slf4j-api-1.6.2.jar},${commons-lang3-3.0.1.jar},${struts-core-1.3.10.jar},${hibernate-jpa-2.0-api-1.0.1.Final.jar},${logback-core-1.0.0.jar},${logback-classic-1.0.0.jar}"/>
+    <property name="project.runtime.dependency"
+              value=""/>
+    <property name="project.test.compiletime.dependency"
+              value="${junit-4.10.jar}"/>
+    <property name="project.test.runtime.dependency"
+              value=""/>
+</project>

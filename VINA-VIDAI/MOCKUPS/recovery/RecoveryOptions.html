@@ -1,0 +1,44 @@
+<!-- http://css-tricks.com/6206-resolution-specific-stylesheets/
+http://css-tricks.com/video-screencasts/10-fixed-width-fluid-width-elastic-width/
+http://jontangerine.com/log/2007/09/the-incredible-em-and-elastic-layouts-with-css
+ -->
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/vv-main.css"/>
+    </head>
+    <body>
+        <div id="rootContainer">
+			<div id="bodyContent">
+                <form action="PasswordReset.html" method="post">
+					<p>
+						<strong>Password help for ${login_name}</strong>
+						<br>
+						Choose how to recover your account.
+					</p>
+					<p>
+						<input type="radio"
+							   name="group">Answer my Challenge Answer</input>
+						<br>
+						<strong>{your_security_question}</strong>
+						<br>
+						<input type="text"
+						       name="securityAnswer">
+						<br>
+						Challenge answer is not case-sensitive
+						<br>
+						<input type="radio"
+							   name="group">Send me a password reset link to my contact email address : <strong>${contact_email_address}</strong></input>
+						<br>
+						<input type="text"
+						       name="recoveryEmailAddress">
+						<br>
+						Your recovery email address.
+						<br>
+						<br>
+						<button type="submit" name="Recover" value="Continue">Continue</button>
+					</p>
+                </html:form>
+			</div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." 
+         default="projects-dist-all"
+         name="Projects Build"
+         xmlns:ac="antlib:net.sf.antcontrib">
+    <description>Build file to build any or all project</description>
+    
+    <property file="build.properties"/>
+    <property file="projectslist.properties"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+    
+    <!--taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${projects.base}/ant-contrib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef-->
+
+    <target name="projects-echo">
+        <echo>Hurray! Hurray! Build Started...</echo>
+        <echo>Current List of Projects - ${projects.list}</echo>
+    </target>
+    
+    <target name="projects-dist-all"
+            depends="projects-echo">
+        <antcall target="projects-clean-all"/>
+        <antcall target="projects-invoke-all">
+            <param name="target-to-run" value="project-dist"/>
+        </antcall>
+    </target>
+
+    <target name="projects-invoke-all">
+        <ac:for list="${projects.list}"
+                delimiter=","
+                param="projectname"
+                trim="true">
+            <sequential>
+                <echo>Running ${target-to-run} for @{projectname}</echo>
+                <ant antfile="./@{projectname}/build.xml" 
+                     target="${target-to-run}"
+                     inheritRefs="true"/>
+            </sequential>
+        </ac:for>
+    </target>
+    
+    <target name="projects-clean-all">
+        <echo>Deleting ${projects.build}</echo>
+        <delete dir="${projects.build}" failonerror="false"/>
+    </target> 
+        
+</project>

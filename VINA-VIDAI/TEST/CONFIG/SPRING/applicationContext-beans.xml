@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC
+    "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans
+  default-autowire="no"
+  default-lazy-init="false"
+  default-dependency-check="none"
+>
+
+  <bean
+      id="ahpBootstrapManager"
+      class="org.ahp.core.bootstrap.AhpBootstrapManager"
+  >
+
+    <property name="ahpLoggerManager">
+      <ref bean="ahpLoggerManager"/>
+    </property>
+    <property name="ahpConfigurationManager">
+      <ref bean="ahpConfigurationManager"/>
+    </property>
+    <property name="ahpMessageResourceManager">
+      <ref bean="ahpMessageResourceManager"/>
+    </property>
+  </bean>
+
+  <bean
+      id="ahpMessageResourceManager"
+      class="org.ahp.core.managers.AhpMessageResourceManager"
+  >
+
+  </bean>
+
+  <bean
+      name="/ProcessCreateQuiz"
+      class="org.ahp.vinavidai.quiz.create.action.ProcessCreateQuiz"
+  >
+
+    <property name="quizService">
+      <ref bean="quizService"/>
+    </property>
+  </bean>
+
+  <bean
+      name="/DisplayCreateQuiz"
+      class="org.ahp.vinavidai.quiz.create.action.DisplayCreateQuiz"
+  >
+
+    <property name="quizService">
+      <ref bean="quizService"/>
+    </property>
+  </bean>
+
+  <bean
+      id="loginDAO"
+      class="org.ahp.login.dao.LoginDAOImpl"
+  >
+
+  </bean>
+
+  <bean
+      id="loginService"
+      class="org.ahp.login.LoginService"
+  >
+
+    <property name="loginDAO">
+      <ref bean="loginDAO"/>
+    </property>
+  </bean>
+
+  <bean
+      id="quizDAO"
+      class="org.ahp.vinavidai.quiz.QuizDAOImpl"
+  >
+
+  </bean>
+
+  <bean
+      name="/DisplayCreateQuestion"
+      class="org.ahp.vinavidai.quiz.create.action.DisplayCreateQuestion"
+  >
+
+    <property name="quizService">
+      <ref bean="quizService"/>
+    </property>
+  </bean>
+
+  <bean
+      id="ahpLoggerManager"
+      class="org.ahp.core.managers.AhpLogBackLoggerManager"
+  >
+
+  </bean>
+
+  <bean
+      name="/ProcessResetPassword"
+      class="org.ahp.login.action.ProcessResetPassword"
+  >
+
+  </bean>
+
+  <bean
+      name="/ProcessLogin"
+      class="org.ahp.login.action.ProcessLogin"
+  >
+
+    <property name="loginService">
+      <ref bean="loginService"/>
+    </property>
+  </bean>
+
+  <bean
+      id="quizService"
+      class="org.ahp.vinavidai.quiz.QuizService"
+  >
+
+    <property name="quizDAO">
+      <ref bean="quizDAO"/>
+    </property>
+  </bean>
+
+  <bean
+      id="ahpConfigurationManager"
+      class="org.ahp.core.managers.AhpXmlConfigurationManager"
+  >
+
+  </bean>
+
+  <bean
+      id="ahpBootstrapListener"
+      class="org.ahp.core.bootstrap.AhpBootstrapListener"
+  >
+
+    <property name="ahpBootstrapManager">
+      <ref bean="ahpBootstrapManager"/>
+    </property>
+  </bean>
+
+  <!--
+     To include additional bean definitions for Spring in the generated
+     application context file, add a file to your XDoclet merge directory
+     called spring-beans.xml that contains the <bean></bean> markup.
+  -->
+
+</beans>

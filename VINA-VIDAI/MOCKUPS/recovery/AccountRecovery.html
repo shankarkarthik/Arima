@@ -1,0 +1,36 @@
+<!-- http://css-tricks.com/6206-resolution-specific-stylesheets/
+http://css-tricks.com/video-screencasts/10-fixed-width-fluid-width-elastic-width/
+http://jontangerine.com/log/2007/09/the-incredible-em-and-elastic-layouts-with-css
+ -->
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/vv-main.css"/>
+    </head>
+    <body>
+        <div id="rootContainer">
+			<div id="bodyContent">
+                <form action="VerifyUserCaptcha.html" method="post">
+					<p>
+						Please enter your email address for resetting your password or recover your login name.
+					</p>
+					<p>
+						<input type="radio"
+							   name="group">Forgot Password</input>
+						<br>
+						<input type="radio"
+							   name="group">Recover LoginName</input>
+						<br>
+						<br>
+						<strong>Email Address</strong>
+						<br>
+						<input type="text"
+							   name="contactEmailAddress"/>
+						<br>
+						<br>
+						<button type="submit" name="Recover" value="Recover">Recover</button>
+					</p>
+                </html:form>
+			</div>
+        </div>
+    </body>
+</html>

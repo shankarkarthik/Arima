@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="../" 
+         default="project-dist"
+         name="VINA-VIDAI"
+         xmlns:ac="antlib:net.sf.antcontrib">
+    <description>Build file for VINA-VIDAI application</description>
+
+    <!-- Define your artifacts here -->
+    <property file="${ant.project.name}/artifact.properties"/>
+    <!-- set local properties for this build -->
+    <property name="project.name" value="${ant.project.name}"/>
+    <!-- Import the base file. This does most of work. -->
+    <import file="../projectbuild.xml"/>
+
+    <!-- Import dependency jar files -->    
+    <import file="dependency.xml"/>
+    
+    <target name="project-dist">
+        <echo>Hurray! Hurray! Running project-dist for ${ant.project.name}</echo>
+        <echo>${ant.project.name}</echo>
+        <antcall target="project-clean"/>
+        <antcall target="project-prepare-build"/>
+        <antcall target="project-compile"/>
+        <antcall target="project-jar"/>
+        <antcall target="project-war-tomcat"/>
+        <antcall target="project-deploy-tomcat"/>
+    </target>
+
+    <target name="project-test">
+        <echo>Hurray! Hurray! Running project-test for ${ant.project.name}</echo>
+        <echo>${ant.project.name}</echo>
+        <antcall target="project-clean"/>
+        <antcall target="project-prepare-build"/>
+        <antcall target="project-compile"/>
+        <antcall target="project-jar"/>
+        <antcall target="project-war-tomcat"/>
+        <antcall target="project-test-generate-reports"/>
+    </target>        
+    
+</project>

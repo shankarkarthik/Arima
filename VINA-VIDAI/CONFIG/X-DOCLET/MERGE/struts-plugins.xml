@@ -1,0 +1,16 @@
+<plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
+    <set-property property="contextConfigLocation"
+                  value="/WEB-INF/applicationContext-beans.xml /WEB-INF/applicationContext-datasource.xml /WEB-INF/applicationContext-tx-aop.xml /WEB-INF/applicationContext-emf.xml"/>
+</plug-in>
+<plug-in className="org.ahp.core.bootstrap.AhpBootstrapStrutsPlugin">
+    <set-property property="ahpConfigurationLocation"
+                  value="/WEB-INF/AhpConfiguration-Deployment.xml,/WEB-INF/AhpConfiguration.xml"/>
+    <!-- 
+         The Spring Bean id of the class that implements IAhpBootstrapManager. 
+         If this property is not set, the plugin looks for the name "ahpBootstrapManager". 
+         If there is no bean set under this name, it looks based on the interface. 
+         If none, throws an exception 
+    -->                  
+    <set-property property="ahpBootstrapManagerBeanId"
+                  value="ahpBootstrapManager"/>
+</plug-in>

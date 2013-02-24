@@ -1,0 +1,14 @@
+<project basedir=".">
+    <property name="project.compiletime.dependency"
+              value="${servlet-api.jar},${slf4j-api-1.6.2.jar},${logback-core-1.0.0.jar},${logback-classic-1.0.0.jar},${commons-lang3-3.0.1.jar},${struts-core-1.3.10.jar},${hibernate-jpa-2.0-api-1.0.1.Final.jar},${org.springframework.core-3.1.0.M2.jar},${org.springframework.context-3.1.0.M2.jar},${org.springframework.beans-3.1.0.M2.jar},${org.springframework.web-3.1.0.M2.jar}"/>
+    <property name="project.runtime.dependency"
+              value="${jstl.jar},${standard.jar},${struts-el-1.3.10.jar},${struts-extras-1.3.10.jar},${struts-faces-1.3.10.jar},${struts-mailreader-dao-1.3.10.jar},${struts-scripting-1.3.10.jar},${struts-taglib-1.3.10.jar},${struts-tiles-1.3.10.jar},${antlr-2.7.2.jar},${bsf-2.3.0.jar},${commons-beanutils-1.8.0.jar},${commons-chain-1.2.jar},${commons-digester-1.8.jar},${commons-fileupload-1.1.1.jar},${commons-io-1.1.jar},${commons-logging-1.0.4.jar},${commons-validator-1.3.1.jar},${jstl-1.0.2.jar},${oro-2.0.8.jar},${standard-1.0.6.jar},${hsqldb.jar},${com.springsource.org.aopalliance-1.0.0.jar},${org.springframework.aop-3.1.0.M2.jar},${org.springframework.asm-3.1.0.M2.jar},${org.springframework.context.support-3.1.0.M2.jar},${org.springframework.expression-3.1.0.M2.jar},${org.springframework.instrument-3.1.0.M2.jar},${org.springframework.aspects-3.1.0.M2.jar},${org.springframework.jdbc-3.1.0.M2.jar},${org.springframework.orm-3.1.0.M2.jar},${org.springframework.transaction-3.1.0.M2.jar},${org.springframework.web.servlet-3.1.0.M2.jar},${hibernate3.jar},${antlr-2.7.6.jar},${commons-collections-3.1.jar},${dom4j-1.6.1.jar},${javassist-3.12.0.GA.jar},${jta-1.1.jar},${slf4j-api-1.6.1.jar},${c3p0-0.9.1.jar},${org.springframework.web.struts-3.1.0.M2.jar},${aspectjrt.jar},${aspectjweaver.jar}"/>
+    <property name="project.test.compiletime.dependency"
+              value="${junit-4.10.jar},${org.springframework.test-3.1.0.M2.jar},${dbunit-2.4.8.jar}"/>
+    <property name="project.test.runtime.dependency"
+              value=""/>
+    <property name="project.jquery.dependency"
+              value="${jquery-ui-1.8.16.custom}"/>              
+    <property name="project.siblings.dependency"
+              value="COMMON"/>                
+</project>

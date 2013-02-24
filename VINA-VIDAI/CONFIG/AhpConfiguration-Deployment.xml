@@ -1,0 +1,6 @@
+<AhpConfiguration>
+    <AhpDeployment>
+        <DeploymentEnvironment>Development</DeploymentEnvironment>
+        <LogFileLocation>/WEB-INF/logback.xml</LogFileLocation>
+    </AhpDeployment>
+</AhpConfiguration>

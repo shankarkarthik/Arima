@@ -1,0 +1,13 @@
+http://static.springsource.org/spring/docs/3.1.0.M2/spring-framework-reference/html/orm.html#orm-jpa
+http://forum.springsource.org/showthread.php?28935-LazyInitializationException-despite-of-OpenEntityManagerInViewFilter
+http://static.springsource.org/spring/docs/2.5.x/reference/testing.html
+http://zenoconsulting.wikidot.com/blog:8
+
+
+http://tadtech.blogspot.com/2007/09/hibernate-annotation-one-to-one-join.html
+http://tadtech.blogspot.com/2007/09/hibernate-annotation-one-to-many-join.html
+
+
+http://www.theserverside.com/news/1364918/Struts-action-mappings-Devide-Et-Impera
+<action path=”/processAction” type=”package.web.action.ProcessAction”
+parameter=”process”

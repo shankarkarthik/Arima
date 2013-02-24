@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn://vina-vidai/schemas/java/web-app_2_4.xsd" 
+         version="2.4">
+    <display-name>Vina Vidai</display-name>
+   
+    <distributable/>
+
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>org.vv.ApplicationResources</param-value>
+        <description><![CDATA[]]></description>
+    </context-param>
+   
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+        <param-value>en</param-value>
+        <description><![CDATA[]]></description>
+    </context-param>
+
+     
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext-beans.xml /WEB-INF/applicationContext-datasource.xml /WEB-INF/applicationContext-tx-aop.xml /WEB-INF/applicationContext-emf.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+   <!--<filter>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>    
+    <filter-mapping>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    -->
+
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>/WEB-INF/struts-config.xml</param-value>           
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>  
+
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+
+
+    <welcome-file-list>
+        <welcome-file>login/Login.jsp</welcome-file>
+    </welcome-file-list>
+
+  <!-- 
+    <error-page>
+        <error-code>400</error-code>
+        <location>/error.jsp</location>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+        <exception-type>java.lang.Exception</exception-type>
+    </error-page>
+http://www.coderanch.com/how-to/java/JstlTagLibDefinitions
+ -->
+
+    <session-config>
+        <session-timeout>240</session-timeout>
+    </session-config>
+    
+</web-app>

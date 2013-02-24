@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="${projects.home}" 
+         name=""
+         xmlns:ac="antlib:net.sf.antcontrib">
+    <description>basebuild file for all projects</description>
+    
+    <!-- set global properties for this build -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+    <property file="build.properties"/>
+    <property file="projectbuild.properties"/>
+    <property file="extlib.properties"/>
+       
+    <target name="project-dist">
+        <echo>Hurray! Hurray! Running dist for ${projects.project.name}</echo>
+        <echo>${project.name}</echo>
+        <antcall target="projects-clean"/>
+        <antcall target="projects-prepare-build"/>
+        <antcall target="projects-compile"/>
+        <antcall target="projects-jar"/>
+        <antcall target="projects-war-tomcat"/>
+        <antcall target="projects-deploy-tomcat"/>
+    </target>
+    
+    <target name="project-clean">
+        <echo>Deleting ${project.build}</echo>
+        <delete dir="${project.build}" failonerror="false"/>
+    </target> 
+    
+    <target name="project-prepare-build">
+        <mkdir dir="${project.build}"/>
+        <mkdir dir="${project.build.classes}/"/>
+        <mkdir dir="${project.build.config}"/>
+        <mkdir dir="${project.build.dist}"/>
+        <mkdir dir="${project.build.lib}"/>
+        <mkdir dir="${project.build.web.scripts}"/>
+    </target>
+    
+    <target name="project-prepare-classpath">
+        <echo>Preparing class path from -> ${project.compiletime.dependency}</echo>
+        <!-- create the class path -->
+        <ac:for list="${project.compiletime.dependency}"
+             delimiter=","
+             param="libname"
+             trim="true">
+            <sequential>
+                <if>
+                    <isset property="project.classpath"/>
+                <then>
+                    <var name="project.classpath"
+                         value="${project.classpath};${projects.extlib}/@{libname}" />
+                </then>
+                <else>
+                    <var name="project.classpath"
+                         value="${projects.extlib}/@{libname}" />
+                </else>
+                </if>
+            </sequential>
+        </ac:for>
+        <if>
+            <isset property="project.siblings.dependency"/>
+            <then>        
+            <ac:for list="${project.siblings.dependency}"
+                 delimiter=","
+                 param="siblingname"
+                 trim="true">
+                <sequential>
+                    <var name="project.classpath"
+                         value="${project.classpath};${projects.build}/@{siblingname}/${projects.lib}/ahp-@{siblingname}.jar" />
+                </sequential>
+            </ac:for>        
+            </then>
+        </if>            
+        <echo>${project.classpath}</echo>
+    </target>
+
+    <target name="project-prepare-siblings">
+        <echo>Invoking all siblings required for ${project.source.java}</echo>
+        <if>
+            <isset property="project.siblings.dependency"/>
+            <then>
+                <ac:for list="${project.siblings.dependency}"
+                        delimiter=","
+                        param="siblingname"
+                        trim="true">
+                    <sequential>
+                        <ant antfile="@{siblingname}/build.xml"
+                             inheritRefs="false"
+                             inheritAll="false"/>
+                    </sequential>
+                </ac:for> 
+            </then>
+        </if>
+    </target>
+    
+    <target name="project-compile"
+            depends="project-prepare-siblings,project-prepare-classpath">
+        <echo>Compiling Java sources from ${project.source.java}</echo>
+        <javac debug="on" 
+               destdir="${project.build.classes}" 
+               srcdir="${project.source.java}">
+            <classpath>   
+                <pathelement path="${project.classpath}"/>
+            </classpath>
+            <include name="**/*.java"/>
+            <include name="**/*.properties"/>
+        </javac>        
+    </target>
+
+    <target name="project-copy-resources">
+        <copy todir="${project.build.classes}">
+            <fileset dir="${project.source.java}">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>            
+    </target>
+    
+    <target name="project-jar"
+            depends="project-copy-resources">
+        <echo>Creating Jar from ${project.build.classes}</echo>
+        <jar destfile="${project.build.lib}/${projects.artifact.prefix}-${project.artifact.jar.name}.jar"
+             basedir="${project.build.classes}"
+             includes="**/*.class,**/*.properties">       
+            <metainf dir="${project.config.javaee}"
+                     includes="persistence.xml"
+                     erroronmissingdir="false"/>
+        </jar>
+    </target>
+    
+    <target name="project-web">
+        <echo>Copying Web to ${project.build.web}</echo>
+        <copy todir="${project.build.web}">
+            <fileset dir="${project.source.web.html}"/>
+            <fileset dir="${project.source.web.css}"/>
+            <fileset dir="${project.source.web.images}"/>
+            <fileset dir="${project.source.web.js}"/>
+            <fileset dir="${project.source.web.jsp}"/>
+         </copy>        
+    </target>
+    
+    <target name="project-copy-dependency">
+        <echo>Copying compiletime and runtime dependency jar files</echo>
+        <!-- copy dependency files -->
+        <ac:for list="${project.compiletime.dependency},${project.runtime.dependency}"
+                delimiter=","
+                param="libname"
+                trim="true">
+            <sequential>
+                <copy file="${projects.extlib}/@{libname}"
+                      todir="${project.build.lib}"
+                      overwrite="true" />             
+            </sequential>
+        </ac:for>
+        <if>
+            <isset property="project.siblings.dependency"/>
+            <then>        
+            <ac:for list="${project.siblings.dependency}"
+                    delimiter=","
+                    param="siblingname"
+                    trim="true">
+                <sequential>
+                    <copy file="${projects.build}/@{siblingname}/${projects.lib}/ahp-@{siblingname}.jar"
+                          todir="${project.build.lib}"
+                          overwrite="true" />             
+                </sequential>
+            </ac:for>
+            </then>
+        </if>            
+        <copy todir="${project.build.web.scripts}">
+            <fileset dir="${project.jquery.dependency}">
+                <include name="css/**/*.*"/>
+                <include name="js/**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="project-xdoclet">
+        <echo>${projects.webdoclet.dependency}</echo>
+        <taskdef name="webdoclet"
+                 classname="xdoclet.modules.web.WebDocletTask"
+                 classpath="${projects.webdoclet.dependency}"/>
+        <echo message="+--------------------------------------------------+"/>
+        <echo message="|                 Running WebDoclet                |"/>
+        <echo message="+--------------------------------------------------+"/>
+        <webdoclet destdir="${project.build.config}" 
+                   excludedtags="@version,@author,@todo"
+                   addedtags="@xdoclet-generated at ${TODAY},@copyright The XDoclet Team,@author XDoclet,@version ${version}"
+                   force="true" 
+                   verbose="true"
+                   mergedir="${project.config.xdoclet.merge}">
+            <fileset dir="${project.source.java}">
+                <include name="**/*.java"/>
+                <exclude name="**/*Filter.java" />          
+            </fileset>
+            <fileset dir="COMMON/${projects.source}/${projects.java}">
+                <include name="**/*.java"/>
+                <exclude name="**/*Filter.java" />          
+            </fileset>
+            <!-- creates the struts config file -->
+            <strutsconfigxml version="1.2" destdir="${project.build.config}" />
+        </webdoclet>
+        <taskdef name="springdoclet"
+                 classname="xdoclet.modules.spring.SpringDocletTask"
+                 classpath="${projects.webdoclet.dependency}"/>
+        <echo message="+--------------------------------------------------+"/>
+        <echo message="|                 Running SpringDoclet             |"/>
+        <echo message="+--------------------------------------------------+"/>
+        <springdoclet destdir="${project.build.config}" 
+                      excludedtags="@version,@author,@todo"
+                      addedtags="@xdoclet-generated at ${TODAY},@copyright The XDoclet Team,@author XDoclet,@version ${version}"
+                      force="true" 
+                      verbose="true">
+            <fileset dir="${project.source.java}">
+                <include name="**/*.java"/>
+                <exclude name="**/*Filter.java" />          
+            </fileset>        
+            <springxml destdir="${project.build.config}"
+                       destinationFile="applicationContext-beans.xml"/>
+        </springdoclet>
+        <copy todir="${project.test.config}/${projects.spring}"
+              file="${project.build.config}/applicationContext-beans.xml"/>
+    </target>
+    
+    <target name="project-copy-config">
+        <copy todir="${project.build.config}">
+            <fileset dir="${project.config.spring}">
+                <include name="applicationContext*.xml"/>
+            </fileset> 
+            <fileset dir="${project.config}">
+                <include name="*.xml"/>
+            </fileset> 
+            <fileset dir="${project.config.sl4j.logback}">
+                <include name="*.xml"/>
+            </fileset> 
+        </copy>         
+    </target>
+    
+    <target name="project-war-tomcat" 
+            depends="project-copy-dependency,project-xdoclet,project-copy-config">
+        <echo>Creating War file for ${project.artifact.war.name}</echo>
+        <war destfile="${project.build.dist}/${project.artifact.war.name}.war" 
+             webxml="${project.config.javaee}/web.xml">
+            <fileset dir="${project.source.web.html}"/>
+            <fileset dir="${project.source.web.css}"/>
+            <fileset dir="${project.source.web.images}"/>
+            <fileset dir="${project.source.web.js}"/>
+            <fileset dir="${project.source.web.jsp}"/>
+            <fileset dir="${project.build.web}"/>
+            <fileset dir="${projects.build}/COMMON/WEB"/>
+            <metainf dir="${project.config.tomcat}"
+                     includes="context.xml"/>
+            <webinf dir="${project.build.config}"
+                    includes="*.xml"/>
+            <lib dir="${project.build.lib}"
+                 includes="*.jar">
+                 <exclude name="servlet-api.jar"/>
+            </lib>     
+            <!--classes dir="${project.build.classes}"/-->
+        </war>  
+    </target>
+
+    <target name="project-deploy-tomcat">
+        <delete dir="${projects.base.tomcat.home}/${project.artifact.war.name}"/>
+        <delete file="${projects.base.tomcat.home}/${project.artifact.war.name}.war"/>
+        <copy file="${project.build.dist}/${project.artifact.war.name}.war" 
+              todir="${projects.base.tomcat.home}"/>
+    </target>
+
+    <target name="project-copy-web">
+        <copy todir="${projects.base.tomcat.home}/${project.artifact.war.name}">
+            <fileset dir="${project.source.web.html}"/>
+            <fileset dir="${project.source.web.css}"/>
+            <fileset dir="${project.source.web.images}"/>
+            <fileset dir="${project.source.web.js}"/>
+            <fileset dir="${project.source.web.jsp}"/>
+            <fileset dir="${project.build.web.scripts}"/>
+        </copy>    
+    </target>
+    
+    <target name="help">
+        <echo message="project-deploy-tomcat   -> Deploy Your project to the Tomcat"/>
+        <echo message="project-copy-web        -> Copy all web content to the Tomcat"/>
+    </target>
+
+    <target name="test-project-prepare-classpath">
+        <echo>Preparing class path from -> ${project.runtime.dependency}</echo>
+        <!-- create the class path -->
+        <ac:for list="${project.runtime.dependency},${project.test.compiletime.dependency},${project.test.runtime.dependency}"
+             delimiter=","
+             param="libname"
+             trim="true">
+            <sequential>
+                <if>
+                    <isset property="project.classpath"/>
+                <then>
+                    <var name="project.classpath"
+                         value="${project.classpath};${projects.extlib}/@{libname}" />
+                </then>
+                <else>
+                    <var name="project.classpath"
+                         value="${projects.extlib}/@{libname}" />
+                </else>
+                </if>
+            </sequential>
+        </ac:for>          
+        <echo>${project.classpath}</echo>
+    </target>
+
+    <target name="test-project-prepare">
+        <echo>Creating project test directories</echo>
+        <mkdir dir="${project.build.test.classes}"/>
+        <mkdir dir="${projects.test.reports}/${project.name}"/>
+    </target>
+
+    <target name="test-project-compile"
+            depends="test-project-prepare,project-prepare-classpath,test-project-prepare-classpath">
+        <path id="source.build.classpath">
+            <pathelement location="${project.build.classes}"/>
+        </path>
+        <javac debug="on" 
+               destdir="${project.build.test.classes}" 
+               srcdir="${project.test.java}">
+            <classpath>
+                <pathelement path="${project.classpath}"/>
+            </classpath>
+            <classpath refid="source.build.classpath"/>            
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <target name="test-project" 
+            depends="test-project-compile">
+        <path id="source.build.classpath">
+            <pathelement location="${project.build.classes}"/>
+            <pathelement location="${project.build.test.classes}"/>
+        </path>
+        <path id="config.build.classpath">
+            <pathelement location="${project.config}"/>
+            <pathelement location="${project.test.config}"/>
+            <pathelement location="${project.build.config}"/>
+        </path>
+        <junit fork="yes" 
+               printsummary="no" 
+               haltonfailure="no">
+            <classpath>
+                <pathelement path="${project.classpath}"/>
+            </classpath>               
+            <classpath refid="source.build.classpath"/>
+            <classpath refid="config.build.classpath"/>
+            <batchtest fork="yes" 
+                       todir="${projects.test.reports}/${project.name}" >
+                <fileset dir="${project.build.test.classes}">
+                    <include name="**/Test*.class" />
+                </fileset>
+            </batchtest>
+            <formatter type="xml" />
+        </junit>
+    </target>
+    <target name="test-project-generate-reports"
+            depends="test-project">
+        <junitreport todir="${projects.test.reports}">
+            <fileset dir="${projects.test.reports}">
+                <include name="**/TEST-*.xml" />
+            </fileset>
+            <report todir="${projects.test.reports}" />
+        </junitreport>    
+    </target>
+</project>

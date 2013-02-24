@@ -1,0 +1,17 @@
+<AhpConfiguration>
+    <AhpDeployment>
+        <DeploymentEnvironment>Development</DeploymentEnvironment>
+        <LogFileLocation>classpath:/logback/logback.xml</LogFileLocation>
+    </AhpDeployment>
+    <AhpMessageResources>
+        <AhpMessageResource name="test2"
+                            loadType="Database"
+                            resourceType="ExceptionHandling"
+                            resource="">
+            <AhpLocale language="en"
+                       country="US"
+                       variant="UNIX">
+            </AhpLocale>        
+        </AhpMessageResource>        
+    </AhpMessageResources>
+</AhpConfiguration>

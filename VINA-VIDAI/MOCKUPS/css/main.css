@@ -1,0 +1,161 @@
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust based on your final font sizing.
+*/
+#rootContainer {
+    width: auto;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
+    background: #FFFFFF;
+    margin: 0; /* the auto margins (in conjunction with a width) center the page */
+    border: 1px none #000000;
+    text-align: left; /* this overrides the text-align: center on the body element. */
+}
+
+#bodyContent {
+    padding: 0 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
+    background: #FFFFFF;
+}
+
+.tableHeader {
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    padding-right: 0.8em;
+    padding-left: 0.8em;
+    background-color: #6699cc;
+    color: #FFF;
+}
+
+.textBoxFields {
+    padding-right: 0.8em;
+    background-color: #6699CC;
+    padding-left: 0px;
+}
+
+inputTable {
+    line-height: normal;
+    height: auto;
+    border: thin solid #666;
+    padding: 0px;
+    width: 100%;
+}
+
+inputTd {
+    line-height: normal;
+    height: auto;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+    padding-right: 1em;
+    padding-left: 0.8em;
+    /*vertical-align: top;*/
+    background-color: #f0f0f0;
+    margin: 0px;
+}
+
+inputTable {
+    line-height: normal;
+    height: auto;
+    border: thin solid #666;
+    padding: 0px;
+    width: 100%;
+}
+
+inputTd {
+    line-height: normal;
+    height: auto;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+    padding-right: 1em;
+    padding-left: 0.8em;
+    /*vertical-align: top;*/
+    background-color: #f0f0f0;
+    margin: 0px;
+}
+
+/** This is CSS Class inheritence */
+.loginText, .loginTextBold {
+    font-family: Georgia, serif;
+    font-size: 18px;
+}
+
+.loginTextBold {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.loginTextField { 
+    width: 400px; 
+    height: 50px; 
+    display: block; 
+    padding: 4px; 
+    margin: 0 0 10px 0; 
+    font-size: 18px;
+    color: #3a3a3a; 
+    font-family: Georgia, serif;
+}
+.rememberMe{ 
+    width: 20px; 
+    margin: 0; 
+    display: inline-block; 
+}
+                      
+.loginButton { 
+    height: 40px; 
+    width: 100px; 
+    background: url(images/button-bg.png) repeat-x top center; 
+    border: 1px solid #999; 
+    padding: 5px; 
+    color: black; 
+    font-weight: bold;
+    font-size: 18px;  
+}
+
+.loginButton:hover { 
+    background: white; 
+    color: black; 
+}
+
+#formSubmit{
+    float:right;
+}
+
+.curvedTable {
+    line-height: normal;
+    height: auto;
+    border: thin solid #666;
+    padding: 0px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.curvedTableHeader {
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    padding-right: 0.8em;
+    padding-left: 0.8em;
+    background-color: #6699cc;
+    color: #FFF;
+    border-radius: 2px;
+}
+
+.curvedTd {
+    line-height: normal;
+    height: auto;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+    padding-right: 1em;
+    padding-left: 0.8em;
+    /*vertical-align: top;*/
+    background-color: #f0f0f0;
+    margin: 0px;
+    border-radius: 2px;
+}
+#loginTable{
+    position: absolute;
+    top: 25%;
+    left: 35%;
+    margin: auto;
+    padding: 0 20px; 
+        border-radius: 10px;
+        border: thin solid #666;
+
+}
